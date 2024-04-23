@@ -128,6 +128,8 @@ Options:
                    converted to a string, will print the raw
                    string directly, rather than a human-oriented
                    representation of the value.
+
+  -show-sensitive  If specified, output won't contain any color.
 `
 	return strings.TrimSpace(helpText)
 }
