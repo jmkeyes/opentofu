@@ -36,6 +36,8 @@ func (c *PlanCommand) Run(rawArgs []string) int {
 	// Parse and validate flags
 	args, diags := arguments.ParsePlan(rawArgs)
 
+	c.View.SetShowSensitive(args.ShowSensitive)
+
 	// Instantiate the view, even if there are flag errors, so that we render
 	// diagnostics according to the desired view
 	view := views.NewPlan(args.ViewType, c.View)
@@ -105,6 +107,8 @@ func (c *PlanCommand) Run(rawArgs []string) int {
 	// diagnostics.
 	view.Diagnostics(diags)
 	diags = nil
+
+	// bazinga check here args and try to show the variable.
 
 	// Perform the operation
 	op, err := c.RunOperation(be, opReq)
