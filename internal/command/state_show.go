@@ -32,8 +32,11 @@ type StateShowCommand struct {
 func (c *StateShowCommand) Run(args []string) int {
 	args = c.Meta.process(args)
 	cmdFlags := c.Meta.defaultFlagSet("state show")
-	cmdFlags.BoolVar(&c.Meta.showSensitive, "show-sensitive", false, "displays sensitive values")
 	cmdFlags.StringVar(&c.Meta.statePath, "state", "", "path")
+
+	showSensitive := false
+	cmdFlags.BoolVar(&showSensitive, "show-sensitive", false, "displays sensitive values")
+
 	if err := cmdFlags.Parse(args); err != nil {
 		c.Streams.Eprintf("Error parsing command-line flags: %s\n", err.Error())
 		return 1
@@ -184,10 +187,11 @@ func (c *StateShowCommand) Run(args []string) int {
 
 	// If the "-show-sensitive" argument is provided, reset the value of
 	// resource.SensitiveValues to display the sensitive values.
-	if c.Meta.showSensitive {
-		for index, resource := range root.Resources {
+	if showSensitive {
+		for i, resource := range root.Resources {
 			if len(resource.SensitiveValues) > 0 {
-				jsonstate.SetSensitive(root.Resources, nil, index)
+				resource.SetSensitive()
+				root.Resources[i] = resource
 			}
 		}
 	}
@@ -212,7 +216,7 @@ Options:
                       up OpenTofu-managed resources. By default it will
                       use the state "terraform.tfstate" if it exists.
 
-  -show-sensitive  If specified, sensitive values will be displayed.
+  -show-sensitive     If specified, sensitive values will be displayed.
 `
 	return strings.TrimSpace(helpText)
 }
