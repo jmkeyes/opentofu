@@ -41,6 +41,7 @@ ENHANCEMENTS:
 * Added mechanism to introduce automatic retries for provider installations, specifically targeting transient errors ([#1233](https://github.com/opentofu/opentofu/issues/1233))
 * Added `-json` flag to `tofu init` and `tofu get` to support output in json format. ([#1453](https://github.com/opentofu/opentofu/pull/1453))
 * `import` blocks `to` address can now support dynamic values (like variables, locals, conditions, and references to resources or data blocks) in index keys. ([#1270](https://github.com/opentofu/opentofu/pull/1270))
+* Added `-show-sensitive` flag to tofu plan, apply, state-show and output commands to display sensitive data in output. ([#1554](https://github.com/opentofu/opentofu/pull/1554))
 
 BUG FIXES:
 * Fix view hooks unit test flakiness by deterministically waiting for heartbeats to execute ([$1153](https://github.com/opentofu/opentofu/issues/1153))
